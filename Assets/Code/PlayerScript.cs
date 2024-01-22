@@ -51,7 +51,7 @@ public class PlayerScript : MonoBehaviour
         }
 
         // Basic 2 Axis Movement
-        speed = 6f;
+        speed = 12f;
         if (direction.magnitude >= 0.1f)
         {
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
@@ -67,7 +67,7 @@ public class PlayerScript : MonoBehaviour
         // Sprint Mechanic
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            speed = 18f;
+            speed = 36f;
             anim.SetBool("Run", true);
         }
 
