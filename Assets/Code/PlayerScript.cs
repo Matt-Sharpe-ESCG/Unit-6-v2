@@ -16,6 +16,7 @@ public class PlayerScript : MonoBehaviour
     public float speed;
     public float turnSmoothTime = 0.1f;   
     public float gravity = -9.81f;
+    public float jumpFactor;
     float turnSmoothVelocity;
 
     // Additional Variables
@@ -42,6 +43,11 @@ public class PlayerScript : MonoBehaviour
         anim.SetBool("Slash", false);
         anim.SetBool("Crouch", false);
         anim.SetBool("Run", false);
+        anim.SetBool("Block", false);
+        anim.SetBool("Jump", false);
+        anim.SetBool("Kick", false);
+        anim.SetBool("Slash 2", false);
+        anim.SetBool("Death", false);
 
         // Gravity
         velocity.y += gravity * Time.deltaTime;
@@ -83,10 +89,34 @@ public class PlayerScript : MonoBehaviour
             anim.SetBool("Slash", true);
         }
 
+        // Sword Underslash
+        if (Input.GetKey(KeyCode.Backspace))
+        {
+            anim.SetBool("Slash 2", true);
+        }
+
         // Jump Mechanic
         if (Input.GetKey(KeyCode.Space) && isGrounded)
         {
+            anim.SetBool("Jump", true);
+        }
 
+        // Block Mechanic
+        if (Input.GetKey(KeyCode.B))
+        {
+            anim.SetBool("Block", true);
+        }
+
+        // Kick Mechanic
+        if (Input.GetKey(KeyCode.K))
+        {
+            anim.SetBool("Kick", true);
+        }
+
+        // Suicide Mechanic
+        if (Input.GetKey(KeyCode.L))
+        {
+            anim.SetBool("Death", true);
         }
     }
 }
