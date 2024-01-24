@@ -26,6 +26,8 @@ public class PlayerScript : MonoBehaviour
     void Start()
     { 
         anim = GetComponent<Animator>();
+        Cursor.visible = false;
+        Cursor.LockState = CursorLockMode.Locked;
     }
 
     void Update()
