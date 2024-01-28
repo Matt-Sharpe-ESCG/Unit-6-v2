@@ -22,12 +22,19 @@ public class PlayerScript : MonoBehaviour
     // Additional Variables
     Vector3 velocity;
     bool isGrounded;
-    
+    bool isDead;
+
+    // Audio Variables
+    [SerializeField] private AudioSource swordSwingEffect;
+    [SerializeField] private AudioSource deathPingEffect;
+    [SerializeField] private AudioSource walkEffect;
+    [SerializeField] private AudioSource runEffect;
+    [SerializeField] private AudioSource jumpEffect;
+
     void Start()
     { 
         anim = GetComponent<Animator>();
-        Cursor.visible = false;
-        Cursor.LockState = CursorLockMode.Locked;
+        isDead = false;
     }
 
     void Update()
@@ -70,6 +77,7 @@ public class PlayerScript : MonoBehaviour
             controller.Move(moveDir.normalized * speed * Time.deltaTime);
             controller.Move(velocity * Time.deltaTime);
             anim.SetBool("Walk", true);
+            walkEffect.Play();
         }
 
         // Sprint Mechanic
@@ -77,30 +85,35 @@ public class PlayerScript : MonoBehaviour
         {
             speed = 36f;
             anim.SetBool("Run", true);
+            runEffect.Play();
         }
 
         // Crouch Mechanic
         if (Input.GetKey(KeyCode.LeftControl))
         {
             anim.SetBool("Crouch", true);
+            speed = 0f;
         }
 
         // Sword Slash Mechanic
         if (Input.GetKey(KeyCode.Return))
         {
             anim.SetBool("Slash", true);
+            swordSwingEffect.Play();
         }
 
         // Sword Underslash
         if (Input.GetKey(KeyCode.Backspace))
         {
             anim.SetBool("Slash 2", true);
+            swordSwingEffect.Play();
         }
 
         // Jump Mechanic
         if (Input.GetKey(KeyCode.Space) && isGrounded)
         {
             anim.SetBool("Jump", true);
+            jumpEffect.Play();
         }
 
         // Block Mechanic
@@ -116,9 +129,12 @@ public class PlayerScript : MonoBehaviour
         }
 
         // Suicide Mechanic
-        if (Input.GetKey(KeyCode.L))
+        if (Input.GetKeyDown(KeyCode.L))
         {
             anim.SetBool("Death", true);
+            deathPingEffect.Play();
+            isDead = true;
+            speed = 0f;
         }
     }
 }
