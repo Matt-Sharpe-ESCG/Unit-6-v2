@@ -30,7 +30,9 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] private AudioSource walkEffect;
     [SerializeField] private AudioSource runEffect;
     [SerializeField] private AudioSource jumpEffect;
-
+    [SerializeField] private AudioSource sodaSfx;
+    [SerializeField] private AudioSource comeOnSfx;
+    [SerializeField] private AudioSource skillIssueEffect;
     void Start()
     { 
         anim = GetComponent<Animator>();
@@ -57,6 +59,7 @@ public class PlayerScript : MonoBehaviour
         anim.SetBool("Kick", false);
         anim.SetBool("Slash 2", false);
         anim.SetBool("Death", false);
+        anim.SetBool("Cast", false);
 
         // Gravity
         velocity.y += gravity * Time.deltaTime;
@@ -135,6 +138,12 @@ public class PlayerScript : MonoBehaviour
             deathPingEffect.Play();
             isDead = true;
             speed = 0f;
+        }
+
+        // SODA!!!
+        if (Input.GetKeyDown (KeyCode.T))
+        {
+            sodaSfx.Play();
         }
     }
 }
