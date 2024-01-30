@@ -6,9 +6,12 @@ public class PlayerScript : MonoBehaviour
 {
     // Unity Refrences
     public CharacterController controller;
+    public AudioManager audioManager;
     public Transform cam;
     public Transform groundCheck;
     public LayerMask groundMask;
+    public GameObject castEffect;
+    public Transform castSpawn;
     Animator anim;
 
     // Float Variables
@@ -23,10 +26,9 @@ public class PlayerScript : MonoBehaviour
     Vector3 velocity;
     bool isGrounded;
     bool isDead;
+    bool isAttacking;
 
     // Audio Variables
-    [SerializeField] private AudioSource swordSwingEffect;
-    [SerializeField] private AudioSource deathPingEffect;
     [SerializeField] private AudioSource walkEffect;
     [SerializeField] private AudioSource runEffect;
     [SerializeField] private AudioSource jumpEffect;
@@ -45,6 +47,9 @@ public class PlayerScript : MonoBehaviour
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
         Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
+
+        // Bool Factors
+        isAttacking = false;
 
         // Ground Check
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
@@ -99,17 +104,19 @@ public class PlayerScript : MonoBehaviour
         }
 
         // Sword Slash Mechanic
-        if (Input.GetKey(KeyCode.Return))
+        if (Input.GetKey(KeyCode.Return) && !isAttacking)
         {
             anim.SetBool("Slash", true);
-            swordSwingEffect.Play();
+            audioManager.Play("Sword Slash");
+            isAttacking = true;
         }
 
         // Sword Underslash
-        if (Input.GetKey(KeyCode.Backspace))
+        if (Input.GetKey(KeyCode.Backspace) && !isAttacking)
         {
             anim.SetBool("Slash 2", true);
-            swordSwingEffect.Play();
+            audioManager.Play("Sword Slash");
+            isAttacking = true;
         }
 
         // Jump Mechanic
@@ -135,7 +142,7 @@ public class PlayerScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.L))
         {
             anim.SetBool("Death", true);
-            deathPingEffect.Play();
+            audioManager.Play("Death Ping");
             isDead = true;
             speed = 0f;
         }
@@ -144,6 +151,8 @@ public class PlayerScript : MonoBehaviour
         if (Input.GetKey(KeyCode.C))
         {
             anim.SetBool("Cast", true);
+            GameObject obj;
+            obj = Instantiate(castEffect, castSpawn);
         }
 
         // SODA!!!
@@ -151,5 +160,7 @@ public class PlayerScript : MonoBehaviour
         {
             sodaSfx.Play();
         }
+
+
     }
 }

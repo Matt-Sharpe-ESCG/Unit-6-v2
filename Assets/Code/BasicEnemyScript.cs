@@ -13,6 +13,10 @@ public class NewBehaviourScript : MonoBehaviour
 
     public float health;
 
+    public float gravity = -9.81f;
+    Vector3 velocity;
+    bool isGrounded;
+
     //Patrol
     public Vector3 walkPoint;
     bool walkPointSet;
@@ -29,7 +33,7 @@ public class NewBehaviourScript : MonoBehaviour
 
     private void Awake()
     {
-        player = GameObject.Find("PlayerObj").transform;
+        //player = GameObject.Find("PlayerObj").transform;
         agent = GetComponent<NavMeshAgent>();
     }
 
@@ -42,6 +46,13 @@ public class NewBehaviourScript : MonoBehaviour
         if (!playerInSightRange && !playerInAttackRange) Patrolling();
         if (playerInSightRange && !playerInAttackRange) ChasePlayer();
         if (playerInSightRange && playerInAttackRange) AttackPlayer();
+
+        // Gravity
+        velocity.y += gravity * Time.deltaTime;
+        if (isGrounded && velocity.y < 0)
+        {
+            velocity.y = -2f;
+        }
     }
 
     private void SearchWalkPoint()
@@ -118,4 +129,6 @@ public class NewBehaviourScript : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, sightRange);
     }
+
+
 }
