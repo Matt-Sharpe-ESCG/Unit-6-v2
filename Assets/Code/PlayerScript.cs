@@ -140,8 +140,14 @@ public class PlayerScript : MonoBehaviour
             speed = 0f;
         }
 
+        // Cast Flame 
+        if (Input.GetKey(KeyCode.C))
+        {
+            anim.SetBool("Cast", true);
+        }
+
         // SODA!!!
-        if (Input.GetKeyDown (KeyCode.T))
+        if (Input.GetKeyDown(KeyCode.T))
         {
             sodaSfx.Play();
         }
