@@ -101,6 +101,7 @@ public class PlayerScript : MonoBehaviour
         {
             anim.SetBool("Crouch", true);
             speed = 0f;
+            Debug.Log("Crouching");
         }
 
         // Sword Slash Mechanic
